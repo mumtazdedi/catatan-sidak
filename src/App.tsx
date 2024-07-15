@@ -13,11 +13,13 @@ import { ColorModeSwitcher } from "./ColorModeSwitcher";
 import { Logo } from "./Logo";
 import { Provider as ReduxProvider } from "react-redux";
 import { store } from "./redux/store";
+import Routes from "./routes";
 
 export const App = () => (
   <ChakraProvider theme={theme}>
     <ReduxProvider store={store}>
-      <Box textAlign="center" fontSize="xl">
+      <Routes />
+      {/* <Box textAlign="center" fontSize="xl">
         <Grid minH="100vh" p={3}>
           <ColorModeSwitcher justifySelf="flex-end" />
           <VStack spacing={8}>
@@ -36,7 +38,7 @@ export const App = () => (
             </Link>
           </VStack>
         </Grid>
-      </Box>
+      </Box> */}
     </ReduxProvider>
   </ChakraProvider>
 );
