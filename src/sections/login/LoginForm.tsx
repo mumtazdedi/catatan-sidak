@@ -48,6 +48,8 @@ export default function LoginForm() {
           router("/");
         } else if (res.data?.level === 2) {
           router("/verificator");
+        } else {
+          router("/user");
         }
       })
       .catch((err) => {
