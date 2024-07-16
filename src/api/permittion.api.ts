@@ -2,6 +2,7 @@ import {
   IReqAccepPermittion,
   IReqPermittionUser,
   IResPermittionList,
+  IResPermittionStatus,
 } from "../interfaces";
 import { baseCatatanSidakApi } from "./base-catatan-sidak.api";
 
@@ -52,6 +53,12 @@ export const permittionApi = baseCatatanSidakApi.injectEndpoints({
         method: "DELETE",
       }),
     }),
+    getPermittionStatus: build.query<IResPermittionStatus, string>({
+      query: (id) => ({
+        url: `/api/permittion/${id}`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -63,4 +70,6 @@ export const {
   useGetPermttionUserListQuery,
   useCancelPermittionUserMutation,
   useDeletePermittionUserMutation,
+  useGetPermittionStatusQuery,
+  useLazyGetPermittionStatusQuery,
 } = permittionApi;

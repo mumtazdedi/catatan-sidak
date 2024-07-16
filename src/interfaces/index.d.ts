@@ -119,3 +119,14 @@ export interface IReqPermittionUser {
   subject: string;
   description: string;
 }
+
+export interface IPermittionStatus {
+  status: string;
+  data: IPermittion;
+}
+
+export interface IResPermittionStatus {
+  status: boolean;
+  message: string;
+  data: IPermittionStatus;
+}

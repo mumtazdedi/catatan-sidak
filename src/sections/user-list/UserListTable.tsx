@@ -136,7 +136,7 @@ export default function UserListTable() {
   return (
     <>
       {isAdmin() && (
-        <Button mb="12px" onClick={onUserVerificatorOpen}>
+        <Button mb="12px" onClick={onUserVerificatorOpen} colorScheme="teal">
           Add User Verificator
         </Button>
       )}

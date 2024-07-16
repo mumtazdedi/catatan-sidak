@@ -28,8 +28,9 @@ import {
   useCancelPermittionUserMutation,
   useDeletePermittionUserMutation,
   useGetPermttionUserListQuery,
+  useLazyGetPermittionStatusQuery,
 } from "../../api/permittion.api";
-import { FaEdit, FaRecycle, FaTrash } from "react-icons/fa";
+import { FaCheckCircle, FaEdit, FaRecycle, FaTrash } from "react-icons/fa";
 
 export default function PermittionUserList() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -56,6 +57,8 @@ export default function PermittionUserList() {
   const [deletePermittion] = useDeletePermittionUserMutation();
 
   const { data: permittionList, refetch } = useGetPermttionUserListQuery();
+
+  const [getPermittionStatus] = useLazyGetPermittionStatusQuery();
 
   const handleCancelPermittion = async (id: string) => {
     await cancelPermittion(id)
@@ -105,9 +108,37 @@ export default function PermittionUserList() {
       });
   };
 
+  const handleGetPermittionStatus = async (id: string) => {
+    await getPermittionStatus(id)
+      .then((data) => {
+        console.log(data);
+        if (data?.data?.status === true) {
+          toast({
+            title: "Permittion status is checked.",
+            description: data?.data?.data?.status,
+            status: "info",
+            duration: 5000,
+            position: "top",
+            isClosable: true,
+          });
+          refetch();
+          onCancelClose();
+        }
+      })
+      .catch(() => {
+        toast({
+          title: "Permittion failed to check.",
+          status: "error",
+          position: "top",
+          duration: 5000,
+          isClosable: true,
+        });
+      });
+  };
+
   return (
     <>
-      <Button mb="12px" onClick={onOpen}>
+      <Button mb="12px" onClick={onOpen} colorScheme="teal">
         Add Permittion
       </Button>
 
@@ -128,6 +159,21 @@ export default function PermittionUserList() {
                   <Td>{user.description}</Td>
                   <Td>
                     <Flex gap="6px">
+                      <Tooltip
+                        label="Check Permittion Status"
+                        aria-label="A tooltip"
+                      >
+                        <IconButton
+                          aria-label="Check Permittion Status"
+                          onClick={() => {
+                            handleGetPermittionStatus(user.id.toString());
+                          }}
+                          size="sm"
+                          icon={<FaCheckCircle />}
+                          colorScheme="green"
+                        />
+                      </Tooltip>
+
                       <Tooltip label="Edit Permittion" aria-label="A tooltip">
                         <IconButton
                           aria-label="Edit Permittion"
