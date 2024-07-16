@@ -20,30 +20,29 @@ import React from "react";
 import LoginForm from "../sections/login/LoginForm";
 
 export default function Login() {
-  const [tabIndex, setTabIndex] = React.useState("0");
   return (
     <Container>
       <Center h="100vh">
         <Card>
           <CardHeader>
-            <Heading size="md">Login Sebagai</Heading>
+            <Heading size="md">Login Sebagai User/Verifikator</Heading>
           </CardHeader>
 
           <CardBody>
             <Stack spacing="4">
-              <Tabs>
+              {/* <Tabs>
                 <TabList>
                   <Tab>Admin</Tab>
                   <Tab>Verifikator</Tab>
                   <Tab>Client</Tab>
-                </TabList>
+                </TabList> */}
 
-                <TabPanels>
-                  <TabPanel>
-                    <LoginForm />
-                  </TabPanel>
-                </TabPanels>
-              </Tabs>
+              {/* <TabPanels>
+                  <TabPanel> */}
+              <LoginForm />
+              {/* </TabPanel> */}
+              {/* </TabPanels> */}
+              {/* </Tabs> */}
             </Stack>
           </CardBody>
         </Card>

@@ -2,6 +2,7 @@ import {
   IReqPromoteVerificator,
   IReqUserPassword,
   IReqUserVerificator,
+  IReqVerifyUser,
   IResUserList,
   IUser,
 } from "../interfaces";
@@ -41,6 +42,12 @@ const userApi = baseCatatanSidakApi.injectEndpoints({
         },
       }),
     }),
+    verifyUser: builder.mutation<any, IReqVerifyUser>({
+      query: (data) => ({
+        url: `/api/verify-user/${data.id}`,
+        method: "PUT",
+      }),
+    }),
   }),
 });
 
@@ -49,4 +56,5 @@ export const {
   usePromoteTobeVerificatorMutation,
   useAddUserVerificatorMutation,
   useResetPasswordMutation,
+  useVerifyUserMutation,
 } = userApi;

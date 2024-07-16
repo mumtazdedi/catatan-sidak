@@ -2,6 +2,7 @@ import React from "react";
 import {
   useGetUsersQuery,
   usePromoteTobeVerificatorMutation,
+  useVerifyUserMutation,
 } from "../../api/user.api";
 import {
   Button,
@@ -30,10 +31,28 @@ import {
 import AddUserVerificatorForm from "./AddUserVerificatorForm";
 import ResetPasswordUserForm from "./ResetPasswordUserForm";
 import { EditIcon } from "@chakra-ui/icons";
-import { FaEdit, FaKey, FaTrash } from "react-icons/fa";
+import { FaCheckCircle, FaEdit, FaKey, FaTrash } from "react-icons/fa";
 
 export default function UserListTable() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const isAdmin = () => {
+    const level = localStorage.getItem("level");
+    if (level === "1") {
+      return true;
+    }
+
+    return false;
+  };
+
+  const isVerificator = () => {
+    const level = localStorage.getItem("level");
+    if (level === "2") {
+      return true;
+    }
+
+    return false;
+  };
 
   const {
     isOpen: isUserVerificatorOpen,
@@ -47,6 +66,12 @@ export default function UserListTable() {
     onClose: onResetPasswordClose,
   } = useDisclosure();
 
+  const {
+    isOpen: isVerifyUserOpen,
+    onOpen: onVerifyUserOpen,
+    onClose: onVerifyUserClose,
+  } = useDisclosure();
+
   const toast = useToast();
 
   const [selectedId, setSelectedId] = React.useState<number | null>(null);
@@ -54,6 +79,8 @@ export default function UserListTable() {
   const { data: userList, refetch } = useGetUsersQuery();
 
   const [promoteUser] = usePromoteTobeVerificatorMutation();
+
+  const [verifyUser] = useVerifyUserMutation();
 
   const handlePromoteUser = async (userId: number) => {
     try {
@@ -68,11 +95,38 @@ export default function UserListTable() {
             duration: 5000,
             isClosable: true,
           });
+          refetch();
           onClose();
         });
     } catch (error) {
       toast({
         title: "User gagal diubah menjadi verifikator.",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+    }
+  };
+
+  const handleVerifyUser = async (userId: number) => {
+    try {
+      await verifyUser({
+        id: userId,
+      })
+        .unwrap()
+        .then(() => {
+          toast({
+            title: "User berhasil diverifikasi.",
+            status: "success",
+            duration: 5000,
+            isClosable: true,
+          });
+          refetch();
+          onVerifyUserClose();
+        });
+    } catch (error) {
+      toast({
+        title: "User gagal diverifikasi.",
         status: "error",
         duration: 5000,
         isClosable: true,
@@ -92,6 +146,7 @@ export default function UserListTable() {
                 <Th>Name</Th>
                 <Th>Email</Th>
                 <Th>Level</Th>
+                <Th>is Verified</Th>
                 <Th>Action</Th>
               </Tr>
             </Thead>
@@ -101,36 +156,56 @@ export default function UserListTable() {
                   <Td>{user.name}</Td>
                   <Td>{user.email}</Td>
                   <Td>{user.level}</Td>
+                  <Td>{user.isVerified ? "Yes" : "No"}</Td>
                   <Td>
                     <Flex gap="6px">
-                      <Tooltip
-                        label="Jadikan Verifikator"
-                        aria-label="A tooltip"
-                      >
-                        <IconButton
-                          aria-label="Jadikan Verifikator"
-                          onClick={() => {
-                            setSelectedId(user.id);
-                            onOpen();
-                          }}
-                          size="sm"
-                          icon={<FaEdit />}
-                          colorScheme="yellow"
-                        />
-                      </Tooltip>
+                      {isAdmin() && (
+                        <Tooltip
+                          label="Jadikan Verifikator"
+                          aria-label="A tooltip"
+                        >
+                          <IconButton
+                            aria-label="Jadikan Verifikator"
+                            onClick={() => {
+                              setSelectedId(user.id);
+                              onOpen();
+                            }}
+                            size="sm"
+                            icon={<FaEdit />}
+                            colorScheme="yellow"
+                          />
+                        </Tooltip>
+                      )}
 
-                      <Tooltip label="Reset Password" aria-label="A tooltip">
-                        <IconButton
-                          aria-label="Reset Password"
-                          onClick={() => {
-                            setSelectedId(user.id);
-                            onResetPasswordOpen();
-                          }}
-                          size="sm"
-                          icon={<FaKey />}
-                          colorScheme="red"
-                        />
-                      </Tooltip>
+                      {isAdmin() && (
+                        <Tooltip label="Reset Password" aria-label="A tooltip">
+                          <IconButton
+                            aria-label="Reset Password"
+                            onClick={() => {
+                              setSelectedId(user.id);
+                              onResetPasswordOpen();
+                            }}
+                            size="sm"
+                            icon={<FaKey />}
+                            colorScheme="red"
+                          />
+                        </Tooltip>
+                      )}
+
+                      {isVerificator() && (
+                        <Tooltip label="Verify User" aria-label="A tooltip">
+                          <IconButton
+                            aria-label="Verify User"
+                            onClick={() => {
+                              setSelectedId(user.id);
+                              onVerifyUserOpen();
+                            }}
+                            size="sm"
+                            icon={<FaCheckCircle />}
+                            colorScheme="green"
+                          />
+                        </Tooltip>
+                      )}
                     </Flex>
                   </Td>
                 </Tr>
@@ -158,6 +233,31 @@ export default function UserListTable() {
             <Button
               onClick={() => {
                 handlePromoteUser(selectedId!);
+              }}
+              colorScheme="teal"
+            >
+              Yakin
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+
+      <Modal isOpen={isVerifyUserOpen} onClose={onVerifyUserClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Verifikasi User Ini?</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Text>Apakah anda yakin ingin verifikasi user ini?</Text>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button variant="ghost" mr={3} onClick={onClose}>
+              Close
+            </Button>
+            <Button
+              onClick={() => {
+                handleVerifyUser(selectedId!);
               }}
               colorScheme="teal"
             >

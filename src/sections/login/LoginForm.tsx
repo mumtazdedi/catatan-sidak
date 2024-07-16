@@ -34,6 +34,7 @@ export default function LoginForm() {
     await authAdminLogin(data)
       .then((res) => {
         setSession(res.access_token);
+        localStorage.setItem("level", res.data.level.toString());
         toast({
           title: "Login sucessfully.",
           description: "You're logged in",
@@ -41,7 +42,11 @@ export default function LoginForm() {
           duration: 5000,
           isClosable: true,
         });
-        router("/");
+        if (res.data?.level === 1) {
+          router("/");
+        } else if (res.data?.level === 2) {
+          router("/verificator");
+        }
       })
       .catch((err) => {
         console.log(err);

@@ -55,6 +55,10 @@ export interface IReqPromoteVerificator {
   id: number;
 }
 
+export interface IReqVerifyUser {
+  id: number;
+}
+
 export interface IPermittion {
   id: number;
   userId: number;
