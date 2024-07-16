@@ -17,7 +17,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import React from "react";
-import { authAdminLogout } from "../api/auth.api";
+import { authAdminLogout, useLogoutMutation } from "../api/auth.api";
 import { useNavigate } from "react-router-dom";
 import { setSession } from "../utils/auth-utils";
 
@@ -32,11 +32,13 @@ export default function Header(props: any) {
   const route = useNavigate();
   const toast = useToast();
 
+  const [logout] = useLogoutMutation();
+
   const handleLogout = async () => {
-    await authAdminLogout()
+    await logout()
       .then(() => {
-        route("/login");
         setSession(null);
+        route("/login");
         toast({
           title: "Logout berhasil.",
           status: "success",
