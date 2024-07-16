@@ -81,3 +81,8 @@ export interface IResUserVerificator {
   status: boolean;
   message: string;
 }
+
+export interface IReqUserPassword {
+  id: number;
+  password: string;
+}

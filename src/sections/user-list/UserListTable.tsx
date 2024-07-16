@@ -6,6 +6,8 @@ import {
 import {
   Button,
   Card,
+  Flex,
+  IconButton,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -20,11 +22,15 @@ import {
   Text,
   Th,
   Thead,
+  Tooltip,
   Tr,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
 import AddUserVerificatorForm from "./AddUserVerificatorForm";
+import ResetPasswordUserForm from "./ResetPasswordUserForm";
+import { EditIcon } from "@chakra-ui/icons";
+import { FaEdit, FaKey, FaTrash } from "react-icons/fa";
 
 export default function UserListTable() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -33,6 +39,12 @@ export default function UserListTable() {
     isOpen: isUserVerificatorOpen,
     onOpen: onUserVerificatorOpen,
     onClose: onUserVerificatorClose,
+  } = useDisclosure();
+
+  const {
+    isOpen: isResetPasswordOpen,
+    onOpen: onResetPasswordOpen,
+    onClose: onResetPasswordClose,
   } = useDisclosure();
 
   const toast = useToast();
@@ -90,15 +102,36 @@ export default function UserListTable() {
                   <Td>{user.email}</Td>
                   <Td>{user.level}</Td>
                   <Td>
-                    <Button
-                      onClick={() => {
-                        setSelectedId(user.id);
-                        onOpen();
-                      }}
-                      size="sm"
-                    >
-                      Jadikan Verifikator
-                    </Button>
+                    <Flex gap="6px">
+                      <Tooltip
+                        label="Jadikan Verifikator"
+                        aria-label="A tooltip"
+                      >
+                        <IconButton
+                          aria-label="Jadikan Verifikator"
+                          onClick={() => {
+                            setSelectedId(user.id);
+                            onOpen();
+                          }}
+                          size="sm"
+                          icon={<FaEdit />}
+                          colorScheme="yellow"
+                        />
+                      </Tooltip>
+
+                      <Tooltip label="Reset Password" aria-label="A tooltip">
+                        <IconButton
+                          aria-label="Reset Password"
+                          onClick={() => {
+                            setSelectedId(user.id);
+                            onResetPasswordOpen();
+                          }}
+                          size="sm"
+                          icon={<FaKey />}
+                          colorScheme="red"
+                        />
+                      </Tooltip>
+                    </Flex>
                   </Td>
                 </Tr>
               ))}
@@ -143,6 +176,21 @@ export default function UserListTable() {
             <AddUserVerificatorForm
               onClose={onUserVerificatorClose}
               refetch={refetch}
+            />
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+
+      <Modal isOpen={isResetPasswordOpen} onClose={onResetPasswordClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Reset Password</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody pb="20px">
+            <ResetPasswordUserForm
+              onClose={onResetPasswordClose}
+              refetch={refetch}
+              id={selectedId!}
             />
           </ModalBody>
         </ModalContent>
