@@ -27,10 +27,29 @@ export const permittionApi = baseCatatanSidakApi.injectEndpoints({
         data,
       }),
     }),
+    updatePermittionUser: build.mutation<any, IReqPermittionUser>({
+      query: (data) => ({
+        url: `/api/permittion/${data.id}`,
+        method: "PUT",
+        data,
+      }),
+    }),
     getPermttionUserList: build.query<IResPermittionList, void>({
       query: () => ({
         url: "/api/permittion",
         method: "GET",
+      }),
+    }),
+    cancelPermittionUser: build.mutation<any, string>({
+      query: (id) => ({
+        url: `/api/cancel/${id}`,
+        method: "POST",
+      }),
+    }),
+    deletePermittionUser: build.mutation<any, string>({
+      query: (id) => ({
+        url: `/api/permittion/${id}`,
+        method: "DELETE",
       }),
     }),
   }),
@@ -40,5 +59,8 @@ export const {
   useGetPermittionListQuery,
   usePermittionAcceptanceMutation,
   useAddPermittionUserMutation,
+  useUpdatePermittionUserMutation,
   useGetPermttionUserListQuery,
+  useCancelPermittionUserMutation,
+  useDeletePermittionUserMutation,
 } = permittionApi;

@@ -115,6 +115,7 @@ export interface IResRegisterUser {
 }
 
 export interface IReqPermittionUser {
+  id?: string;
   subject: string;
   description: string;
 }

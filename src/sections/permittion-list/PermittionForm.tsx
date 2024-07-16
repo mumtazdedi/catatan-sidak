@@ -9,15 +9,25 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { IReqPermittionUser } from "../../interfaces";
-import { useAddPermittionUserMutation } from "../../api/permittion.api";
+import { IPermittion, IReqPermittionUser } from "../../interfaces";
+import {
+  useAddPermittionUserMutation,
+  useUpdatePermittionUserMutation,
+} from "../../api/permittion.api";
 
 type Props = {
   onClose: () => void;
   refetch: () => void;
+  mode?: "add" | "edit";
+  data?: IPermittion;
 };
 
-export default function PermittionForm({ onClose, refetch }: Props) {
+export default function PermittionForm({
+  onClose,
+  refetch,
+  mode = "add",
+  data,
+}: Props) {
   const toast = useToast();
 
   const {
@@ -26,39 +36,76 @@ export default function PermittionForm({ onClose, refetch }: Props) {
     formState: { errors, isSubmitting },
   } = useForm<IReqPermittionUser>({
     mode: "onChange",
+    defaultValues: {
+      id: data?.id.toString() || "",
+      subject: data?.subject || "",
+      description: data?.description || "",
+    },
   });
 
   const [addPermittion] = useAddPermittionUserMutation();
+  const [editPermittion] = useUpdatePermittionUserMutation();
 
   const onSubmit = async (data: IReqPermittionUser) => {
-    await addPermittion(data)
-      .then((data) => {
-        if (data?.data?.status === true) {
-          toast({
-            title: "User berhasil ditambahkan.",
-            status: "success",
-            duration: 5000,
-            isClosable: true,
-          });
-          refetch();
-          onClose();
-        } else {
+    if (mode === "add") {
+      await addPermittion(data)
+        .then((data) => {
+          if (data?.data?.status === true) {
+            toast({
+              title: "User berhasil ditambahkan.",
+              status: "success",
+              duration: 5000,
+              isClosable: true,
+            });
+            refetch();
+            onClose();
+          } else {
+            toast({
+              title: "User gagal ditambahkan.",
+              status: "error",
+              duration: 5000,
+              isClosable: true,
+            });
+          }
+        })
+        .catch(() => {
           toast({
             title: "User gagal ditambahkan.",
             status: "error",
             duration: 5000,
             isClosable: true,
           });
-        }
-      })
-      .catch(() => {
-        toast({
-          title: "User gagal ditambahkan.",
-          status: "error",
-          duration: 5000,
-          isClosable: true,
         });
-      });
+    } else {
+      await editPermittion(data)
+        .then((data) => {
+          if (data?.data?.status === true) {
+            toast({
+              title: "User berhasil diubah.",
+              status: "success",
+              duration: 5000,
+              isClosable: true,
+            });
+            refetch();
+            onClose();
+          } else {
+            toast({
+              title: "User gagal diubah.",
+              status: "error",
+              duration: 5000,
+              isClosable: true,
+            });
+          }
+        })
+        .catch(() => {
+          toast({
+            title: "User gagal diubah.",
+            status: "error",
+            duration: 5000,
+            isClosable: true,
+          });
+        });
+    }
   };
 
   return (
