@@ -54,3 +54,19 @@ export interface IResUserList {
 export interface IReqPromoteVerificator {
   id: number;
 }
+
+export interface IPermittion {
+  id: number;
+  userId: number;
+  subject: string;
+  description: string;
+  isApplied: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface IResPermittionList {
+  status: boolean;
+  message: string;
+  data: IPermittion[];
+}
