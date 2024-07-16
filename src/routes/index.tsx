@@ -1,5 +1,5 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import Home from "../pages/home";
+import Home from "../pages/admin/home";
 import Login from "../pages/login";
 import { ProtectedRoutes, PublicRoutes } from "./RouteGuard";
 
