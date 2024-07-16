@@ -44,3 +44,13 @@ export interface IResLoginAdmin {
   token_type: string;
   data: IUser;
 }
+
+export interface IResUserList {
+  status: boolean;
+  message: string;
+  data: IUser[];
+}
+
+export interface IReqPromoteVerificator {
+  id: number;
+}
