@@ -32,6 +32,7 @@ const axiosBaseQuery =
           "Content-Type": headers?.["Content-Type"] || "application/json",
           Accept: "application/json",
           Authorization: `Bearer ${token}`,
+          withCredentials: true,
         },
       });
 

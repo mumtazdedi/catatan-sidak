@@ -1,16 +1,27 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Home from "../pages/home";
 import Login from "../pages/login";
+import { ProtectedRoutes, PublicRoutes } from "./RouteGuard";
 
 export default function Routes() {
   const router = createBrowserRouter([
     {
-      path: "/",
-      element: <Home />,
+      element: <ProtectedRoutes />,
+      children: [
+        {
+          path: "/",
+          element: <Home />,
+        },
+      ],
     },
     {
-      path: "/login",
-      element: <Login />,
+      element: <PublicRoutes />,
+      children: [
+        {
+          path: "/login",
+          element: <Login />,
+        },
+      ],
     },
   ]);
   return <RouterProvider router={router} />;

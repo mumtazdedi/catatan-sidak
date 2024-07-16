@@ -3,6 +3,11 @@ import axios from "axios";
 
 const axiosInstance = axios.create({
   baseURL: process.env.REACT_APP_API_CATATAN_SIDAK_URL,
+  headers: {
+    "Content-Type": "application/json",
+    Accept: "application/json",
+    withCredentials: true,
+  },
 });
 
 axiosInstance.interceptors.response.use(
