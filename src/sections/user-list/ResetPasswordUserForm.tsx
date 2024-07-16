@@ -15,8 +15,8 @@ import { IReqUserPassword } from "../../interfaces";
 import { useResetPasswordMutation } from "../../api/user.api";
 
 type Props = {
-  onClose: () => void;
-  refetch: () => void;
+  onClose?: () => void;
+  refetch?: () => void;
   id: number;
 };
 
@@ -49,8 +49,8 @@ export default function ResetPasswordUserForm({ onClose, refetch, id }: Props) {
             duration: 5000,
             isClosable: true,
           });
-          refetch();
-          onClose();
+          refetch && refetch();
+          onClose && onClose();
         } else {
           toast({
             title: "User gagal direset password.",

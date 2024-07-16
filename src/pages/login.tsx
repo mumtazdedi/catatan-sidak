@@ -17,7 +17,7 @@ export default function Login() {
       <Center h="100vh">
         <Card>
           <CardHeader>
-            <Heading size="md">Login Sebagai User/Verifikator</Heading>
+            <Heading size="md">Login Sebagai User/Verifikator/Admin</Heading>
           </CardHeader>
 
           <CardBody>

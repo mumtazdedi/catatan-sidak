@@ -1,9 +1,24 @@
 import React from "react";
 import DashboardLayout from "../../layouts/DashboardLayout";
-import { Box, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
+import {
+  Box,
+  Card,
+  CardBody,
+  CardHeader,
+  Heading,
+  Stack,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
+} from "@chakra-ui/react";
 import PermittionUserList from "../../sections/permittion-list/PermittionUserList";
+import ResetPasswordUserForm from "../../sections/user-list/ResetPasswordUserForm";
 
 export default function UserHome() {
+  const userId = localStorage.getItem("id");
+
   return (
     <DashboardLayout>
       <Box p="12px">
@@ -17,7 +32,19 @@ export default function UserHome() {
             <TabPanel>
               <PermittionUserList />
             </TabPanel>
-            <TabPanel>{/* <PermittionListTable /> */}</TabPanel>
+            <TabPanel>
+              <Card>
+                <CardHeader>
+                  <Heading size="md">Update Password</Heading>
+                </CardHeader>
+
+                <CardBody>
+                  <Stack spacing="4">
+                    <ResetPasswordUserForm id={parseInt(userId!)} />
+                  </Stack>
+                </CardBody>
+              </Card>
+            </TabPanel>
           </TabPanels>
         </Tabs>
       </Box>
