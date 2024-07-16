@@ -35,6 +35,7 @@ export default function LoginForm() {
       .then((res) => {
         setSession(res.access_token);
         localStorage.setItem("level", res.data.level.toString());
+        localStorage.setItem("id", res.data.id.toString());
         toast({
           title: "Login sucessfully.",
           description: "You're logged in",

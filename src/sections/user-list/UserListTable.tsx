@@ -135,9 +135,11 @@ export default function UserListTable() {
   };
   return (
     <>
-      <Button mb="12px" onClick={onUserVerificatorOpen}>
-        Add User Verificator
-      </Button>
+      {isAdmin() && (
+        <Button mb="12px" onClick={onUserVerificatorOpen}>
+          Add User Verificator
+        </Button>
+      )}
       <Card>
         <TableContainer>
           <Table size="sm">

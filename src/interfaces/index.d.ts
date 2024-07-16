@@ -90,3 +90,11 @@ export interface IReqUserPassword {
   id: number;
   password: string;
 }
+
+export interface IReqAccepPermittion {
+  verificatorId: number;
+  userId: number;
+  permittionId: number;
+  comment: string;
+  isAccepted: boolean;
+}
