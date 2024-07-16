@@ -70,3 +70,14 @@ export interface IResPermittionList {
   message: string;
   data: IPermittion[];
 }
+
+export interface IReqUserVerificator {
+  name: string;
+  email: string;
+  password: string;
+}
+
+export interface IResUserVerificator {
+  status: boolean;
+  message: string;
+}

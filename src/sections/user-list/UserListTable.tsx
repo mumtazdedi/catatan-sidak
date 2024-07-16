@@ -24,15 +24,22 @@ import {
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
+import AddUserVerificatorForm from "./AddUserVerificatorForm";
 
 export default function UserListTable() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const {
+    isOpen: isUserVerificatorOpen,
+    onOpen: onUserVerificatorOpen,
+    onClose: onUserVerificatorClose,
+  } = useDisclosure();
 
   const toast = useToast();
 
   const [selectedId, setSelectedId] = React.useState<number | null>(null);
 
-  const { data: userList } = useGetUsersQuery();
+  const { data: userList, refetch } = useGetUsersQuery();
 
   const [promoteUser] = usePromoteTobeVerificatorMutation();
 
@@ -62,6 +69,9 @@ export default function UserListTable() {
   };
   return (
     <>
+      <Button mb="12px" onClick={onUserVerificatorOpen}>
+        Add User Verificator
+      </Button>
       <Card>
         <TableContainer>
           <Table size="sm">
@@ -121,6 +131,20 @@ export default function UserListTable() {
               Yakin
             </Button>
           </ModalFooter>
+        </ModalContent>
+      </Modal>
+
+      <Modal isOpen={isUserVerificatorOpen} onClose={onUserVerificatorClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Add User Verificator</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody pb="20px">
+            <AddUserVerificatorForm
+              onClose={onUserVerificatorClose}
+              refetch={refetch}
+            />
+          </ModalBody>
         </ModalContent>
       </Modal>
     </>

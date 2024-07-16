@@ -1,4 +1,10 @@
-import { IReqPromoteVerificator, IResUserList } from "../interfaces";
+import {
+  IReqPromoteVerificator,
+  IReqUserVerificator,
+  IResUserList,
+  IResUserVerificator,
+  IUser,
+} from "../interfaces";
 import { baseCatatanSidakApi } from "./base-catatan-sidak.api";
 
 const userApi = baseCatatanSidakApi.injectEndpoints({
@@ -19,7 +25,18 @@ const userApi = baseCatatanSidakApi.injectEndpoints({
         data,
       }),
     }),
+    addUserVerificator: builder.mutation<any, IReqUserVerificator>({
+      query: (data) => ({
+        url: `/api/add-verificator`,
+        method: "POST",
+        data,
+      }),
+    }),
   }),
 });
 
-export const { useGetUsersQuery, usePromoteTobeVerificatorMutation } = userApi;
+export const {
+  useGetUsersQuery,
+  usePromoteTobeVerificatorMutation,
+  useAddUserVerificatorMutation,
+} = userApi;
