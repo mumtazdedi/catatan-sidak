@@ -98,3 +98,23 @@ export interface IReqAccepPermittion {
   comment: string;
   isAccepted: boolean;
 }
+
+export interface IReqRegisterUser {
+  name: string;
+  email: string;
+  password: string;
+  re_password: string;
+}
+
+export interface IResRegisterUser {
+  status: boolean;
+  message: string;
+  access_token: string;
+  token_type: string;
+  data: IUser;
+}
+
+export interface IReqPermittionUser {
+  subject: string;
+  description: string;
+}

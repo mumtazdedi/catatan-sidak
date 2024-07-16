@@ -1,5 +1,4 @@
 import {
-  Box,
   Card,
   CardBody,
   CardHeader,
@@ -9,20 +8,20 @@ import {
   Stack,
 } from "@chakra-ui/react";
 import React from "react";
-import LoginForm from "../sections/login/LoginForm";
+import RegisterForm from "../sections/register/RegisterForm";
 
-export default function Login() {
+export default function RegisterUser() {
   return (
     <Container>
       <Center h="100vh">
         <Card>
           <CardHeader>
-            <Heading size="md">Login Sebagai User/Verifikator</Heading>
+            <Heading size="md">Register User Biasa</Heading>
           </CardHeader>
 
           <CardBody>
             <Stack spacing="4">
-              <LoginForm />
+              <RegisterForm />
             </Stack>
           </CardBody>
         </Card>

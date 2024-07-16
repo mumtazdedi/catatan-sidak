@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { IReqLoginAdmin } from "../../interfaces";
 import {
   Button,
+  Flex,
   FormControl,
   FormErrorMessage,
   FormLabel,
@@ -103,6 +104,20 @@ export default function LoginForm() {
             {errors.password && errors.password.message}
           </FormErrorMessage>
         </FormControl>
+
+        <Flex justifyContent="flex-end">
+          <Button
+            size="sm"
+            variant="link"
+            sx={{
+              textDecoration: "underline",
+            }}
+            colorScheme="teal"
+            onClick={() => router("/register")}
+          >
+            Belum punya akun? Daftar disini
+          </Button>
+        </Flex>
 
         <Button
           width="100%"

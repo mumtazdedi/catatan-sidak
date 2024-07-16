@@ -66,7 +66,6 @@ export default function AddUserVerificatorForm({ onClose, refetch }: Props) {
       });
   };
 
-  console.log(errors);
   return (
     <div>
       <form onSubmit={handleSubmit(onSubmit)}>

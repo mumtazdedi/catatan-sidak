@@ -1,4 +1,8 @@
-import { IReqAccepPermittion, IResPermittionList } from "../interfaces";
+import {
+  IReqAccepPermittion,
+  IReqPermittionUser,
+  IResPermittionList,
+} from "../interfaces";
 import { baseCatatanSidakApi } from "./base-catatan-sidak.api";
 
 export const permittionApi = baseCatatanSidakApi.injectEndpoints({
@@ -16,8 +20,25 @@ export const permittionApi = baseCatatanSidakApi.injectEndpoints({
         data,
       }),
     }),
+    addPermittionUser: build.mutation<any, IReqPermittionUser>({
+      query: (data) => ({
+        url: `/api/permittion`,
+        method: "POST",
+        data,
+      }),
+    }),
+    getPermttionUserList: build.query<IResPermittionList, void>({
+      query: () => ({
+        url: "/api/permittion",
+        method: "GET",
+      }),
+    }),
   }),
 });
 
-export const { useGetPermittionListQuery, usePermittionAcceptanceMutation } =
-  permittionApi;
+export const {
+  useGetPermittionListQuery,
+  usePermittionAcceptanceMutation,
+  useAddPermittionUserMutation,
+  useGetPermttionUserListQuery,
+} = permittionApi;

@@ -1,8 +1,10 @@
 import {
   IReqPromoteVerificator,
+  IReqRegisterUser,
   IReqUserPassword,
   IReqUserVerificator,
   IReqVerifyUser,
+  IResRegisterUser,
   IResUserList,
   IUser,
 } from "../interfaces";
@@ -48,6 +50,13 @@ const userApi = baseCatatanSidakApi.injectEndpoints({
         method: "PUT",
       }),
     }),
+    registerUser: builder.mutation<IResRegisterUser, IReqRegisterUser>({
+      query: (data) => ({
+        url: `/api/register`,
+        method: "POST",
+        data,
+      }),
+    }),
   }),
 });
 
@@ -57,4 +66,5 @@ export const {
   useAddUserVerificatorMutation,
   useResetPasswordMutation,
   useVerifyUserMutation,
+  useRegisterUserMutation,
 } = userApi;

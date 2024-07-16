@@ -3,6 +3,8 @@ import Home from "../pages/admin/home";
 import Login from "../pages/login";
 import { ProtectedRoutes, PublicRoutes } from "./RouteGuard";
 import VerificatorHome from "../pages/verificator/home";
+import UserHome from "../pages/user/home";
+import RegisterUser from "../pages/register-user";
 
 export default function Routes() {
   const router = createBrowserRouter([
@@ -17,6 +19,10 @@ export default function Routes() {
           path: "/verificator",
           element: <VerificatorHome />,
         },
+        {
+          path: "/user",
+          element: <UserHome />,
+        },
       ],
     },
     {
@@ -25,6 +31,10 @@ export default function Routes() {
         {
           path: "/login",
           element: <Login />,
+        },
+        {
+          path: "/register",
+          element: <RegisterUser />,
         },
       ],
     },
